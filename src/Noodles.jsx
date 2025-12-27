@@ -1,4 +1,4 @@
-import Noodles from "./data/Noodles";
+import Noodles from "./data/noodles";
 import { Link } from "react-router-dom";
 import CardButton from "./CardButton";
 
