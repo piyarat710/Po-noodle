@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import NoodleMenu from "./data/noodles";
+import NoodleMenu from "./data/Noodles";
 import { useState } from "react";
 import { useCart } from "./CartContext";
 

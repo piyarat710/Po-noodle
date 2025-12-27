@@ -11,7 +11,7 @@ export default function Cart() {
     return (
       <div style={{ padding: "20px", textAlign: "center" }}>
         <h2>🛒 ตะกร้าว่าง</h2>
-        <Link to="/menu">ไปเลือกเมนู</Link>
+        <Link to="/Menu">ไปเลือกเมนู</Link>
       </div>
     );
   }
@@ -20,7 +20,7 @@ export default function Cart() {
     <div style={{ padding: "20px", maxWidth: "700px", margin: "0 auto" }}>
       <h1>ตะกร้าสินค้าของคุณ</h1>
 
-      {cart.map((item, index) => (
+      {Cart.map((item, index) => (
         <div
           key={index}
           style={{
@@ -75,7 +75,7 @@ export default function Cart() {
     </button>
 
     
-    <Link to="/noodles">
+    <Link to="/Noodles">
         <button        
         style={{
           marginTop: "20px",
