@@ -18,7 +18,7 @@ export default function Tea() {
       >
         {Noodles.map((item) => (
           <Link
-            to={`/noodles/${item.id}`}
+            to={`/Noodles/${item.id}`}
             key={item.id}
             style={{
               textDecoration: "none",

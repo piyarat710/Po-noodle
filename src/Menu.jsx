@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import CardButton from "./CardButton";
 
 const menu = [
-  { id: 1, name: "ก๋วยเตี๋ยว", image: "/noodle01.jpeg", path: "/noodles" },
+  { id: 1, name: "ก๋วยเตี๋ยว", image: "/noodle01.jpeg", path: "/Noodles" },
   { id: 2, name: "ชา", image: "/tea01.jpg", path: "/tea" }
 ];
 
