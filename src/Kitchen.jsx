@@ -1,12 +1,12 @@
-import { useCart } from "./CartContext";
-import CardButton from "./CardButton";
+import { useCart } from "./cartContext";
+import CardButton from "./cardButton";
 
 export default function Kitchen() {
   const { orders, removeOrder } = useCart();
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>หน้าครัว 👨‍🍳</h1>
+      <h1>หน้าครัว </h1>
 
       <CardButton
         to="/menu"
@@ -60,7 +60,7 @@ export default function Kitchen() {
                 fontSize: "16px"
               }}
             >
-              ✅ ทำเสร็จแล้ว
+              ทำเสร็จแล้ว
             </button>
           </div>
         ))

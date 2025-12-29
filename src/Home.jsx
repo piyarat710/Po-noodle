@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CardButton from "./CardButton";
+import CardButton from "./cardButton";
 
 export default function Home() {
   return (
@@ -8,12 +8,12 @@ export default function Home() {
       <p>นี่คือหน้าแรกของเว็บ</p>
 
   <CardButton
-  to="/Menu"
+  to="/menu"
   title="ไปหน้าเมนู"
   subtitle="เลือกเมนูอาหาร"
   />
     <CardButton
-  to="/Kitchen"
+  to="/kitchen"
   title="ไปหน้าเมนูที่เลือก"
   subtitle="เลือกเมนูอาหาร"
   />

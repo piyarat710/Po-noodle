@@ -1,4 +1,4 @@
-const noodleMenu = [
+const NoodleMenu = [
   {
     id: "chicken",
     name: "ก๋วยเตี๋ยวไก่",
@@ -21,4 +21,4 @@ const noodleMenu = [
   }
 ];
 
-export default noodleMenu;
+export default NoodleMenu;

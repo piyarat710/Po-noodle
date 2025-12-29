@@ -1,6 +1,6 @@
-import Noodles from "./data/Tea";
+import Noodles from "./data/tea";
 import { Link } from "react-router-dom";
-import CardButton from "./CardButton";
+import CardButton from "./cardButton";
 
 
 export default function Tea() {

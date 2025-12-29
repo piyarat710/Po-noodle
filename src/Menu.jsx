@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CardButton from "./CardButton";
+import CardButton from "./cardButton";
 
 const menu = [
   { id: 1, name: "ก๋วยเตี๋ยว", image: "/noodle01.jpeg", path: "/Noodles" },
@@ -44,7 +44,7 @@ export default function Menu() {
           </Link>
         ))}
       </div>
-      <Link to="/Cart">
+      <Link to="/cart">
   <button style={{ marginTop: "36px" ,
           padding: "20px",
           width: "50%",

@@ -21,4 +21,4 @@ const TeaMenu = [
   }
 ];
 
-export default noodleMenu;
+export default TeaMenu;

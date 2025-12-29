@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import NoodleMenu from "./data/Noodles";
 import { useState } from "react";
-import { useCart } from "./CartContext";
+import { useCart } from "./cartContext";
 
 export default function NoodleDetail() {
   const { id } = useParams();
@@ -151,7 +151,7 @@ export default function NoodleDetail() {
         เพิ่มลงตะกร้า
       </button>
       
-      <Link to="/Cart">
+      <Link to="/cart">
       <button style={{
           marginTop: "20px",
           padding: "12px",
@@ -168,7 +168,7 @@ export default function NoodleDetail() {
       </Link>
 
 
-      <Link to="/Noodles">
+      <Link to="/noodles">
         <button        
         style={{
           marginTop: "20px",
