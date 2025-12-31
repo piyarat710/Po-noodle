@@ -4,12 +4,12 @@ import { useEffect } from "react";
 import Home from "./Home";
 import Menu from "./Menu";
 import Noodles from "./Noodles";
-import Tea from "./tea";
+import Tea from "./Tea";
 import NoodleDetail from "./NoodleDetail";
 import Cart from "./Cart";
 import Kitchen from "./Kitchen";
 
-function App() {
+export default function App() {
   const [params] = useSearchParams();
 
   useEffect(() => {
@@ -31,5 +31,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;
