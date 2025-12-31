@@ -1,5 +1,5 @@
-import { useCart } from "./cartContext";
-import CardButton from "./cardButton";
+import { useCart } from "./CartContext";
+import CardButton from "./CardButton";
 
 export default function Kitchen() {
   const { orders, removeOrder } = useCart();

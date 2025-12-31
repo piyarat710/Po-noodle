@@ -1,4 +1,4 @@
-import { useCart } from "./cartContext";
+import { useCart } from "./CartContext";
 import { Link } from "react-router-dom";
 
 export default function Cart() {

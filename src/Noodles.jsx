@@ -1,6 +1,6 @@
 import NoodleMenu from "./data/Noodles";
 import { Link } from "react-router-dom";
-import CardButton from "./cardButton";
+import CardButton from "./CardButton";
 
 export default function Noodles() {
   return (
@@ -49,7 +49,7 @@ export default function Noodles() {
       </div>
 
       <CardButton
-        to="/menu"
+        to="/Menu"
         title="⬅ กลับไปหน้าเมนู"
         subtitle="เลือกหมวดอาหารอื่น"
       />

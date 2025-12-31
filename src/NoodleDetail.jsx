@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import NoodleMenu from "./data/Noodles";
 import { useState } from "react";
-import { useCart } from "./cartContext";
+import { useCart } from "./CartContext";
 
 export default function NoodleDetail() {
   const { id } = useParams();

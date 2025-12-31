@@ -3,8 +3,8 @@ import { useEffect } from "react";
 
 import Home from "./Home";
 import Menu from "./Menu";
-import Noodles from "./Noodles";   // ✅ ตัว N ใหญ่
-import Tea from "./Tea";
+import Noodles from "./Noodles";
+import Tea from "./tea";
 import NoodleDetail from "./NoodleDetail";
 import Cart from "./Cart";
 import Kitchen from "./Kitchen";

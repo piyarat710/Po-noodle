@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CardButton from "./cardButton";
+import CardButton from "./CardButton";
 
 const menu = [
   { id: 1, name: "ก๋วยเตี๋ยว", image: "/noodle01.jpeg", path: "/Noodles" },

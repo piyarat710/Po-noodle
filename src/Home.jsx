@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import CardButton from "./cardButton";
+import CardButton from "./CardButton";
 
 export default function Home() {
   return (
