@@ -1,38 +1,35 @@
 import { useCart } from "./CartContext";
 
 export default function Checkout() {
-  const { cart } = useCart();
-  const table = localStorage.getItem("tableNumber");
+  const { currentOrder, payOrder } = useCart();
 
-  const total = cart.reduce((sum, i) => sum + i.price, 0);
-
-  if (cart.length === 0) {
-    return <h2>ไม่มีรายการอาหาร</h2>;
+  if (!currentOrder) {
+    return <h2>ไม่มีรายการที่ต้องชำระ</h2>;
   }
 
-  const promptPayNumber = "0812345678"; // เบอร์ร้าน
-  const qrUrl = `https://promptpay.io/${promptPayNumber}/${total}`;
+  const total = currentOrder.items.reduce(
+    (sum, i) => sum + i.price,
+    0
+  );
+
+  const qrUrl = `https://promptpay.io/0812345678/${total}`;
 
   return (
     <div style={{ padding: 20, textAlign: "center" }}>
       <h1>ชำระเงิน</h1>
-      <h2>โต๊ะ {table}</h2>
+      <h2>โต๊ะ {currentOrder.table}</h2>
 
-      {cart.map((item, i) => (
-        <p key={i}>
-          {item.name} - {item.price} บาท
-        </p>
+      {currentOrder.items.map((i, idx) => (
+        <p key={idx}>{i.name} - {i.price} บาท</p>
       ))}
 
-      <h2>รวมทั้งหมด: {total} บาท</h2>
+      <h2>รวม {total} บาท</h2>
 
-      <img
-        src={qrUrl}
-        alt="QR Payment"
-        style={{ width: 250, marginTop: 20 }}
-      />
+      <img src={qrUrl} style={{ width: 250 }} />
 
-      <p>📱 สแกนเพื่อชำระเงิน</p>
+      <button onClick={payOrder}>
+        ยืนยันว่าชำระเงินแล้ว
+      </button>
     </div>
   );
 }
