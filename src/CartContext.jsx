@@ -8,6 +8,20 @@ export function CartProvider({ children }) {
   const [currentOrder, setCurrentOrder] = useState(null); // ✅ สำคัญมาก
 
 
+useEffect(() => {
+  const savedCurrent = JSON.parse(localStorage.getItem("currentOrder"));
+  if (savedCurrent) {
+    setCurrentOrder(savedCurrent);
+  }
+}, []);
+
+useEffect(() => {
+  if (currentOrder) {
+    localStorage.setItem("currentOrder", JSON.stringify(currentOrder));
+  } else {
+    localStorage.removeItem("currentOrder");
+  }
+}, [currentOrder]);
 
 // โหลด cart
   useEffect(() => {
