@@ -68,6 +68,7 @@ export default function NoodleDetail() {
         <option>น้ำใส</option>
         <option>ต้มยำ</option>
         <option>น้ำตก</option>
+        <option>น้ำเย็นตาโฟ</option>
       </select>
 
       <h3>เส้น</h3>
@@ -75,18 +76,28 @@ export default function NoodleDetail() {
         <option value="">เลือก</option>
         <option>เส้นเล็ก</option>
         <option>เส้นใหญ่</option>
-        <option>บะหมี่</option>
+        <option>เส้นมาม่า</option>
+        <option>เส้นบะหมี่</option>
+        <option>หมี่หยก</option>
+        <option>วุ้นเส้น</option>
+        <option>วุ้นมะพร้าว</option>
+        <option>เบียร์วุ้น</option>
+        <option>ราเมง</option>
+
       </select>
 
       <h3>ผัก</h3>
       <select value={vegetable} onChange={e => setVegetable(e.target.value)}>
         <option value="">เลือก</option>
-        <option>ใส่ผัก</option>
-        <option>ไม่ใส่ผัก</option>
+        <option>ผักมาก</option>
+        <option>ผักกลาง</option>
+        <option>ผักน้อย</option>
+        <option>ไม่ผัก</option>
+        <option>หญ้า</option>
       </select>
 
       <h3>ท็อปปิ้ง (+10)</h3>
-      {["ลูกชิ้น", "ไข่"].map(t => (
+      {["เพิ่มลูกชิ้น", "เพิ่มไข่ยางมะตูม", "เพิ่มหมู"].map(t => (
         <label key={t} style={{ display: "block" }}>
           <input
             type="checkbox"
