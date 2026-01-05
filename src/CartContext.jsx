@@ -7,6 +7,19 @@ export function CartProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [currentOrder, setCurrentOrder] = useState(null); // ✅ สำคัญมาก
 
+
+
+// โหลด cart
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(savedCart);
+  }, []);
+
+// sync cart
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
   // โหลด orders จาก localStorage
   useEffect(() => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -54,9 +67,7 @@ export function CartProvider({ children }) {
 
   // ครัวกดทำเสร็จ
   const removeOrder = (id) => {
-    const updated = orders.filter(o => o.id !== id);
-    setOrders(updated);
-    localStorage.setItem("orders", JSON.stringify(updated));
+    setOrders(prev => prev.filter(o => o.id !== id));
   };
 
   const payOrder = () => {
