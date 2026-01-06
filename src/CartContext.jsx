@@ -1,120 +1,65 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "./firebase";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [currentOrder, setCurrentOrder] = useState(null); // ✅ สำคัญมาก
+  const [currentOrder, setCurrentOrder] = useState(null);
 
-
-useEffect(() => {
-  const savedCurrent = JSON.parse(localStorage.getItem("currentOrder"));
-  if (savedCurrent) {
-    setCurrentOrder(savedCurrent);
-  }
-}, []);
-
-useEffect(() => {
-  if (currentOrder) {
-    localStorage.setItem("currentOrder", JSON.stringify(currentOrder));
-  } else {
-    localStorage.removeItem("currentOrder");
-  }
-}, [currentOrder]);
-
-// โหลด cart
+  // โหลด cart
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
+    const saved = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(saved);
   }, []);
 
-// sync cart
+  // sync cart
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // โหลด orders จาก localStorage
-  useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(savedOrders);
-  }, []);
-
-  // sync orders → localStorage
-  useEffect(() => {
-    localStorage.setItem("orders", JSON.stringify(orders));
-  }, [orders]);
-
-  // เพิ่มลงตะกร้า
-  const addToCart = (item) => {
-    setCart(prev => [...prev, item]);
-  };
-
-  // ลบจากตะกร้า
-  const removeFromCart = (index) => {
+  // เพิ่ม / ลบ
+  const addToCart = (item) => setCart(prev => [...prev, item]);
+  const removeFromCart = (index) =>
     setCart(prev => prev.filter((_, i) => i !== index));
-  };
+  const clearCart = () => setCart([]);
 
-  // ล้างตะกร้า (ใช้ตอนจ่ายเงิน)
-  const clearCart = () => {
-    setCart([]);
-  };
-
-  // ส่งออเดอร์ให้ครัว
-  const submitOrder = () => {
+  // ✅ ส่งออเดอร์ให้ครัว (Firebase)
+  const submitOrder = async () => {
     if (cart.length === 0) return;
 
     const table = localStorage.getItem("tableNumber");
 
-    const newOrder = {
-      id: Date.now(),
+    const docRef = await addDoc(collection(db, "orders"), {
       table,
       items: cart,
-      time: new Date().toLocaleTimeString(),
-      paid: false
-    };
+      status: "pending",
+      createdAt: Date.now()
+    });
 
-    setOrders(prev => [...prev, newOrder]);
-    setCurrentOrder(newOrder);   // ⭐ เก็บไว้ใช้หน้า Checkout
-    setCart([]);                 // ล้างตะกร้า
+    setCurrentOrder({
+      id: docRef.id,
+      table,
+      items: cart
+    });
+
+    setCart([]); // ล้างตะกร้า
   };
 
-  // ครัวกดทำเสร็จ
-  const removeOrder = (id) => {
-    setOrders(prev => prev.filter(o => o.id !== id));
-  };
-
-  const payOrder = () => {
-  if (!currentOrder) return;
-
-  // อัปเดต paid = true
-  setOrders(prev =>
-    prev.map(o =>
-      o.id === currentOrder.id ? { ...o, paid: true } : o
-    )
-  );
-
-  setCurrentOrder(null); // ล้างเฉพาะ order ปัจจุบัน
-};
-
-  // เคลียร์ currentOrder หลังจ่ายเงิน
-  const clearCurrentOrder = () => {
-    setCurrentOrder(null);
-  };
+  // ใช้หน้า Checkout
+  const clearCurrentOrder = () => setCurrentOrder(null);
 
   return (
     <CartContext.Provider
       value={{
         cart,
-        orders,
         currentOrder,
         addToCart,
         removeFromCart,
         submitOrder,
         clearCart,
-        clearCurrentOrder,
-        removeOrder,
-        payOrder
+        clearCurrentOrder
       }}
     >
       {children}
