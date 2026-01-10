@@ -9,6 +9,7 @@ import NoodleDetail from "./NoodleDetail";
 import Cart from "./Cart";
 import Kitchen from "./Kitchen";
 import Checkout from "./Checkout";
+import TeaDetail from "./TeaDetail";
 
 export default function App() {
   const [params] = useSearchParams();
@@ -31,6 +32,8 @@ export default function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/kitchen" element={<Kitchen />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/tea/:id" element={<TeaDetail />} />
+      
 
     </Routes>
   );

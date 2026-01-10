@@ -5,7 +5,7 @@ import CardButton from "./CardButton";
 export default function Tea() {
   return (
     <div style={{ padding: "20px" }}>
-      <h1 style={{ textAlign: "center" }}>เมนูเครื่องดื่ม</h1>
+      <h1 style={{ textAlign: "center" }}>🧋 เมนูเครื่องดื่ม</h1>
 
       <div
         style={{
@@ -15,42 +15,48 @@ export default function Tea() {
           marginTop: "30px"
         }}
       >
-        {TeaMenu.map((item) => (
-          <div
+        {TeaMenu.map(item => (
+          <Link
             key={item.id}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "12px",
-              padding: "10px"
-            }}
+            to={`/tea/${item.id}`}
+            style={{ textDecoration: "none", color: "black" }}
           >
             <div
               style={{
-                width: "100%",
-                height: "350px",
-                overflow: "hidden",
-                borderRadius: "10px"
+                border: "1px solid #ccc",
+                borderRadius: "12px",
+                padding: "10px",
+                background: "white"
               }}
             >
-              <img
-                src={item.image}
-                alt={item.name}
+              <div
                 style={{
                   width: "100%",
-                  height: "100%",
-                  objectFit: "cover"
+                  height: "300px",
+                  overflow: "hidden",
+                  borderRadius: "10px"
                 }}
-              />
+              >
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover"
+                  }}
+                />
+              </div>
+
+              <h3 style={{ textAlign: "center", marginTop: "20px" }}>
+                {item.name}
+              </h3>
+
+              <p style={{ textAlign: "center", marginTop: "10px" }}>
+                ราคา {item.price} บาท
+              </p>
             </div>
-
-            <h3 style={{ textAlign: "center", marginTop: "10px" }}>
-              {item.name}
-            </h3>
-
-            <p style={{ textAlign: "center" }}>
-              ราคา {item.price} บาท
-            </p>
-          </div>
+          </Link>
         ))}
       </div>
 

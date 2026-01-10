@@ -1,23 +1,27 @@
 const TeaMenu = [
   {
-    id: "Green tea",
+    id: "Green-tea",
     name: "ชาเขียว",
-    image: "/Green tea1.jpg"
+    image: "/Green tea1.jpg",
+    price: 40
   },
   {
     id: "Matcha",
     name: "มัทฉะ",
-    image: "/Matcha1.jpg"
+    image: "/Matcha1.jpg",
+    price: 45
   },
   {
-    id: "Thai Tea",
+    id: "Thai-Tea",
     name: "ชาไทย",
-    image: "/Thai Tea1.png"
+    image: "/Thai Tea1.png",
+    price: 40
   },
   {
-    id: "Beer",
-    name: "ก๋วยเตี๋ยวทะเล",
-    image: "/Lemon1.jpg"
+    id: "Lemon",
+    name: "ชามะนาว",
+    image: "/Lemon1.jpg",
+    price: 35
   }
 ];
 

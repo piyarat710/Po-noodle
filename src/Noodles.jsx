@@ -34,7 +34,14 @@ export default function Noodles() {
                   borderRadius: "10px"
                 }}
               />
-              <h3 style={{ textAlign: "center" }}>{item.name}</h3>
+              <h3 style={{ textAlign: "center", marginTop: "20px" }}>
+                {item.name}
+                </h3>
+
+              <p style={{ textAlign: "center", marginTop: "10px" }}>
+                ราคา {item.basePrice} บาท
+              </p>
+
             </div>
           </Link>
         ))}

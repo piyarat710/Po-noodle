@@ -1,40 +1,26 @@
 import { useEffect, useState } from "react";
-import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-  doc,
-  updateDoc
-} from "firebase/firestore";
-import { db } from "./firebase";
 import CardButton from "./CardButton";
 
 export default function Kitchen() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const q = query(
-      collection(db, "orders"),
-      where("status", "==", "pending")
-    );
-
-    const unsubscribe = onSnapshot(q, snapshot => {
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    const loadOrders = () => {
+      const data =
+        JSON.parse(localStorage.getItem("orders")) || [];
       setOrders(data);
-    });
+    };
 
-    return () => unsubscribe();
+    loadOrders(); // โหลดทันทีตอนเข้า
+    const interval = setInterval(loadOrders, 3000); // ทุก 3 วิ
+
+    return () => clearInterval(interval);
   }, []);
 
-  // ✅ ครัวกดทำเสร็จ
-  const doneOrder = async (id) => {
-    await updateDoc(doc(db, "orders", id), {
-      status: "done"
-    });
+  const doneOrder = (id) => {
+    const updated = orders.filter(o => o.id !== id);
+    setOrders(updated);
+    localStorage.setItem("orders", JSON.stringify(updated));
   };
 
   return (
@@ -45,7 +31,7 @@ export default function Kitchen() {
         background: "#f2f2f2"
       }}
     >
-      <h1>👨‍🍳 หน้าครัว</h1>
+      <h1>หน้าครัว</h1>
 
       <CardButton
         to="/menu"
@@ -54,7 +40,9 @@ export default function Kitchen() {
       />
 
       {orders.length === 0 ? (
-        <h2 style={{ marginTop: "20px" }}>ยังไม่มีออเดอร์</h2>
+        <h2 style={{ marginTop: "20px" }}>
+          ยังไม่มีออเดอร์
+        </h2>
       ) : (
         orders.map(order => (
           <div
@@ -68,13 +56,23 @@ export default function Kitchen() {
             }}
           >
             <h2>🪑 โต๊ะ {order.table}</h2>
+            <p>เวลา: {order.time}</p>
 
             {order.items.map((item, i) => (
               <div key={i}>
                 <p>• {item.name}</p>
-                <p>  ขนาด: {item.size} | เผ็ด: {item.spicy}</p>
-                <p>  เส้น: {item.noodleType} | ผัก: {item.vegetable}</p>
-                <p>  ท็อปปิ้ง: {item.toppings.join(", ") || "ไม่มี"}</p>
+                <p>
+                  ขนาด: {item.size} | เผ็ด: {item.spicy}
+                </p>
+                <p>
+                  เส้น: {item.noodleType} | ผัก: {item.vegetable}
+                </p>
+                <p>
+                  ท็อปปิ้ง:{" "}
+                  {item.toppings.length
+                    ? item.toppings.join(", ")
+                    : "ไม่มี"}
+                </p>
                 <strong>{item.price} บาท</strong>
                 <hr />
               </div>

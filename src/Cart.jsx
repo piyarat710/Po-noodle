@@ -1,20 +1,51 @@
-import { useCart } from "./CartContext";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
-  const {
-    cart,
-    currentOrder,        // ✅ เพิ่ม
-    removeFromCart,
-    submitOrder
-  } = useCart();
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  // sync cart
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
-  // ✅ ว่างจริงเฉพาะไม่มีทั้ง cart และ currentOrder
-  if (cart.length === 0 && !currentOrder) {
+  const removeFromCart = (index) => {
+    setCart(prev => prev.filter((_, i) => i !== index));
+  };
+
+  // ✅ ส่งออเดอร์ให้ครัว (localStorage)
+  const submitOrder = () => {
+    if (cart.length === 0) return;
+
+    const table = localStorage.getItem("tableNumber");
+
+    const newOrder = {
+      id: Date.now(),
+      table,
+      items: cart,
+      time: new Date().toLocaleTimeString()
+    };
+
+    const prevOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
+
+    localStorage.setItem(
+      "orders",
+      JSON.stringify([...prevOrders, newOrder])
+    );
+
+    setCart([]);
+    alert("ส่งออเดอร์ให้ครัวแล้ว");
+  };
+
+  const total = cart.reduce((sum, i) => sum + i.price, 0);
+
+  if (cart.length === 0) {
     return (
-      <div style={{ padding: "20px", textAlign: "center" }}>
+      <div style={{ padding: 20, textAlign: "center" }}>
         <h2>ตะกร้าว่าง</h2>
         <Link to="/menu">ไปเลือกเมนู</Link>
       </div>
@@ -37,15 +68,34 @@ export default function Cart() {
           }}
         >
           <h3>{item.name}</h3>
-          <p>เผ็ด: {item.spicy}</p>
-          <p>น้ำซุป: {item.soup}</p>
-          <p>เส้น: {item.noodleType}</p>
-          <p>ผัก: {item.vegetable}</p>
-          <p>ขนาด: {item.size}</p>
-          <p>
-            ท็อปปิ้ง:{" "}
-            {item.toppings.length ? item.toppings.join(", ") : "ไม่มี"}
-          </p>
+
+    {/* 🍜 ก๋วยเตี๋ยว */}
+    {item.type !== "tea" && (
+    <>
+      <p>เผ็ด: {item.spicy}</p>
+      <p>น้ำซุป: {item.soup}</p>
+      <p>เส้น: {item.noodleType}</p>
+      <p>ผัก: {item.vegetable}</p>
+      <p>ขนาด: {item.size}</p>
+      <p>
+        ท็อปปิ้ง:{" "}
+        {item.toppings?.length ? item.toppings.join(", ") : "ไม่มี"}
+      </p>
+    </>
+    )}
+
+      {/* 🧋 ชา */}
+  {item.type === "tea" && (
+    <>
+      <p>ความหวาน: {item.sweetness}</p>
+      <p>
+        ท็อปปิ้ง:{" "}
+        {item.toppings?.length ? item.toppings.join(", ") : "ไม่มี"}
+      </p>
+    </>
+    )}
+
+
           <strong>ราคา: {item.price} บาท</strong>
 
           <button
@@ -91,28 +141,8 @@ export default function Cart() {
         </>
       )}
 
-      {/* ✅ ปุ่มไปชำระเงิน แสดงเมื่อมี currentOrder */}
-      {currentOrder && (
-        <Link to="/checkout">
-          <button style={{ width: "100%", marginTop: "10px" }}>
-            ไปชำระเงิน
-          </button>
-        </Link>
-      )}
-
       <Link to="/noodles">
-        <button
-          style={{
-            marginTop: "10px",
-            width: "100%",
-            padding: "12px",
-            background: "#efc37f",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            fontSize: "16px"
-          }}
-        >
+        <button style={{ width: "100%", marginTop: 10 }}>
           กลับไปเลือกเมนู
         </button>
       </Link>

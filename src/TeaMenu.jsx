@@ -15,8 +15,8 @@ const TeaMenu = [
     image: "/noodle-beef.jpg"
   },
   {
-    id: "Beer",
-    name: "ก๋วยเตี๋ยวทะเล",
+    id: "Lemon",
+    name: "ชามะนาว",
     image: "/noodle-seafood.jpg"
   }
 ];
