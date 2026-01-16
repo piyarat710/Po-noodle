@@ -16,6 +16,7 @@ export default function NoodleDetail() {
   const [noodleType, setNoodleType] = useState("");
   const [vegetable, setVegetable] = useState("");
   const [toppings, setToppings] = useState([]);
+  const [error, setError] = useState("");
 
   const totalPrice =
     noodle.basePrice +
@@ -29,6 +30,14 @@ export default function NoodleDetail() {
   };
 
   const add = () => {
+
+    if (!spicy || !soup || !noodleType || !vegetable) {
+    setError("⚠️ กรุณาเลือกข้อมูลให้ครบ");
+    return;
+    }
+
+    setError("");
+
     addToCart({
       name: noodle.name,
       size,
@@ -80,9 +89,7 @@ export default function NoodleDetail() {
         <option>เส้นบะหมี่</option>
         <option>หมี่หยก</option>
         <option>วุ้นเส้น</option>
-        <option>วุ้นมะพร้าว</option>
-        <option>เบียร์วุ้น</option>
-        <option>ราเมง</option>
+
 
       </select>
 
@@ -93,7 +100,7 @@ export default function NoodleDetail() {
         <option>ผักกลาง</option>
         <option>ผักน้อย</option>
         <option>ไม่ผัก</option>
-        <option>หญ้า</option>
+
       </select>
 
       <h3>ท็อปปิ้ง (+10)</h3>
@@ -109,13 +116,46 @@ export default function NoodleDetail() {
       ))}
 
       <h2>ราคารวม: {totalPrice} บาท</h2>
-
-      <button onClick={add} style={{ width: "100%", marginTop: 10 }}>
+      {error && (
+    <p style={{ color: "red", marginTop: 10 }}>
+    {error}
+    </p>
+    )}
+      <button onClick={add}           
+            style={{
+            width: "100%",
+            padding: "12px",
+            fontSize: "16px",
+            background: "#349537",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer"}}>
         เพิ่มลงตะกร้า
       </button>
 
-      <Link to="/cart"><button>ไปที่ตะกร้า</button></Link>
-      <Link to="/noodles"><button>กลับ</button></Link>
+      <Link to="/cart"><button          
+            style={{ width: "100%",
+            padding: "12px",
+            fontSize: "16px",
+            background: "#4caf99",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer" 
+            }}>
+            ไปที่ตะกร้า</button></Link>
+
+      <Link to="/noodles"><button            
+            style={{ width: "100%",
+            padding: "12px",
+            fontSize: "16px",
+            background: "#bec368",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer" 
+            }}>กลับ</button></Link>
     </div>
   );
 }
