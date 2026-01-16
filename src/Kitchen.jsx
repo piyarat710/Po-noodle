@@ -11,11 +11,16 @@ export default function Kitchen() {
   };
 
   useEffect(() => {
-    const loadOrders = () => {
-      const data =
-        JSON.parse(localStorage.getItem("orders")) || [];
-      setOrders(data);
-    };
+    
+   const loadOrders = () => {
+  try {
+    const data = JSON.parse(localStorage.getItem("orders"));
+    setOrders(Array.isArray(data) ? data : []);
+  } catch {
+    setOrders([]);
+  }
+};
+
 
     loadOrders(); // โหลดทันที
     const interval = setInterval(loadOrders, 3000);
