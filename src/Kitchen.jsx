@@ -4,6 +4,12 @@ import CardButton from "./CardButton";
 export default function Kitchen() {
   const [orders, setOrders] = useState([]);
 
+  // ✅ ออกจากระบบ (ต้องอยู่นอก useEffect)
+  const logout = () => {
+    localStorage.removeItem("isStaff"); // ใช้ key เดียวกับ ProtectedRoute
+    window.location.href = "/login";
+  };
+
   useEffect(() => {
     const loadOrders = () => {
       const data =
@@ -11,8 +17,8 @@ export default function Kitchen() {
       setOrders(data);
     };
 
-    loadOrders(); // โหลดทันทีตอนเข้า
-    const interval = setInterval(loadOrders, 3000); // ทุก 3 วิ
+    loadOrders(); // โหลดทันที
+    const interval = setInterval(loadOrders, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -31,7 +37,21 @@ export default function Kitchen() {
         background: "#f2f2f2"
       }}
     >
-      <h1>หน้าครัว</h1>
+      <h1>👨‍🍳 หน้าครัว</h1>
+
+      <button
+        onClick={logout}
+        style={{
+          marginBottom: 20,
+          padding: 10,
+          background: "#f44336",
+          color: "white",
+          border: "none",
+          borderRadius: 6
+        }}
+      >
+        ออกจากระบบ
+      </button>
 
       <CardButton
         to="/menu"
@@ -61,18 +81,6 @@ export default function Kitchen() {
             {order.items.map((item, i) => (
               <div key={i}>
                 <p>• {item.name}</p>
-                <p>
-                  ขนาด: {item.size} | เผ็ด: {item.spicy}
-                </p>
-                <p>
-                  เส้น: {item.noodleType} | ผัก: {item.vegetable}
-                </p>
-                <p>
-                  ท็อปปิ้ง:{" "}
-                  {item.toppings.length
-                    ? item.toppings.join(", ")
-                    : "ไม่มี"}
-                </p>
                 <strong>{item.price} บาท</strong>
                 <hr />
               </div>

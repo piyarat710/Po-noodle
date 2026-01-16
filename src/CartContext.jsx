@@ -38,12 +38,21 @@ export function CartProvider({ children }) {
       time: new Date().toLocaleTimeString()
     };
 
-    const prev =
+    // 🔴 สำหรับหน้า Kitchen (ลบได้)
+    const orders =
       JSON.parse(localStorage.getItem("orders")) || [];
+    localStorage.setItem(
+      "orders",
+      JSON.stringify([...orders, newOrder])
+    );
 
-    const updated = [...prev, newOrder];
-
-    localStorage.setItem("orders", JSON.stringify(updated));
+    // ⭐ เพิ่ม: สำหรับหน้า Stats (ห้ามลบ)
+    const history =
+      JSON.parse(localStorage.getItem("orderHistory")) || [];
+    localStorage.setItem(
+      "orderHistory",
+      JSON.stringify([...history, newOrder])
+    );
 
     setCurrentOrder(newOrder);
     setCart([]);

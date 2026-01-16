@@ -10,6 +10,10 @@ import Cart from "./Cart";
 import Kitchen from "./Kitchen";
 import Checkout from "./Checkout";
 import TeaDetail from "./TeaDetail";
+import Stats from "./Stats";
+import StaffLogin from "./StaffLogin";
+import ProtectedRoute from "./ProtectedRoute";
+import Login from "./Login";
 
 export default function App() {
   const [params] = useSearchParams();
@@ -30,10 +34,12 @@ export default function App() {
       <Route path="/noodles/:id" element={<NoodleDetail />} />
       <Route path="/tea" element={<Tea />} />
       <Route path="/cart" element={<Cart />} />
-      <Route path="/kitchen" element={<Kitchen />} />
+      <Route path="/kitchen" element={<ProtectedRoute><Kitchen /></ProtectedRoute>} />
+       <Route path="/staff-login" element={<StaffLogin />} />
+       <Route path="/login" element={<Login />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/tea/:id" element={<TeaDetail />} />
-      
+      <Route path="/stats" element={<Stats />} />
 
     </Routes>
   );

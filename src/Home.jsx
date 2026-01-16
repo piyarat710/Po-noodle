@@ -14,8 +14,14 @@ export default function Home() {
   />
     <CardButton
   to="/kitchen"
-  title="ไปหน้าเมนูที่เลือก"
-  subtitle="เลือกเมนูอาหาร"
+  title="หน้าพนักงาน"
+  subtitle="สำหรับพนักงาน"
+  />
+
+  <CardButton 
+  to="/stats"
+  title="สถิติร้าน"
+  subtitle="สถิติร้าน"
   />
       
     </div>
