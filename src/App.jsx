@@ -11,9 +11,9 @@ import Kitchen from "./Kitchen";
 import Checkout from "./Checkout";
 import TeaDetail from "./TeaDetail";
 import Stats from "./Stats";
-
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
+import History from "./History";
 
 export default function App() {
   const [params] = useSearchParams();
@@ -35,11 +35,11 @@ export default function App() {
       <Route path="/tea" element={<Tea />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/kitchen" element={<ProtectedRoute><Kitchen /></ProtectedRoute>} />
-       
        <Route path="/login" element={<Login />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/tea/:id" element={<TeaDetail />} />
       <Route path="/stats" element={<Stats />} />
+      <Route path="/history" element={<History />} />
 
     </Routes>
   );

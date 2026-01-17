@@ -35,7 +35,7 @@ export function CartProvider({ children }) {
       id: Date.now(),
       table,
       items: cart,
-      time: new Date().toLocaleTimeString()
+      time: Date.now()
     };
 
     // 🔴 สำหรับหน้า Kitchen (ลบได้)

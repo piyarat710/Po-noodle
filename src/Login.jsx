@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // ✅ เพิ่ม LinkS
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -7,14 +7,13 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    // 🔐 รหัสพนักงาน (กำหนดเอง)
     const STAFF_USER = "staff";
     const STAFF_PASS = "1234";
 
     if (username === STAFF_USER && password === STAFF_PASS) {
-      localStorage.setItem("isStaff", "true"); // ✅ จำสถานะล็อคอิน
+      localStorage.setItem("isStaff", "true");
       alert("เข้าสู่ระบบสำเร็จ");
-      navigate("/kitchen"); // 👉 ไปหน้าครัว
+      navigate("/kitchen");
     } else {
       alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
@@ -41,7 +40,7 @@ export default function Login() {
         }}
       >
         <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-           เข้าสู่ระบบพนักงาน
+          เข้าสู่ระบบพนักงาน
         </h2>
 
         <input
@@ -60,7 +59,7 @@ export default function Login() {
 
         <input
           type="password"
-          placeholder="รหัสผ่าน(1234)"
+          placeholder="รหัสผ่าน (1234)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={{
@@ -87,8 +86,8 @@ export default function Login() {
         >
           เข้าสู่ระบบ
         </button>
-        
-                <Link to="/">
+
+        <Link to="/">
           <button
             style={{
               width: "100%",
