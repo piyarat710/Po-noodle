@@ -1,0 +1,328 @@
+/* ===== ฟอนต์และพื้นหลังรวม ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5efe6; /* ครีมนม */
+  color: #3e2f25;
+}
+
+/* ===== หัวข้อ ===== */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ===== กล่องการ์ด (เมนู / ตะกร้า / ออเดอร์) ===== */
+.card, 
+.menu-card, 
+.cart-box, 
+.order-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  padding: 18px;
+  transition: all 0.25s ease;
+}
+
+.card:hover,
+.menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== ปุ่มหลัก (สไตล์ Klassy Cafe) ===== */
+button {
+  background-color: #fb5849;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #e14b3d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(251, 88, 73, 0.3);
+}
+
+/* ===== อินพุต ===== */
+input, textarea {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #fb5849;
+  box-shadow: 0 0 0 2px rgba(251, 88, 73, 0.15);
+}
+
+/* ===== Navbar / Header ===== */
+header, .navbar {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 14px 20px;
+  border-bottom: 3px solid #fb5849;
+}
+
+/* ===== ลิงก์ ===== */
+a {
+  color: #fb5849;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== QR Payment Box ===== */
+.qr-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  text-align: center;
+  max-width: 340px;
+  margin: auto;
+}
+
+/* ===== ตารางในหน้าครัว/ประวัติ ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background: #fb5849;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== ทำให้รูปอาหารดูโปร ===== */
+img {
+  border-radius: 10px;
+}
+
+/* ===== Sweetness Slider Style (Cafe Theme) ===== */
+.sweet-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 97%;
+  height: 10px;
+  border-radius: 15px;
+  background: linear-gradient(to right, #f1e7de, #bd997f);
+  outline: none;
+  margin-top: 10px;
+}
+
+/* เส้นด้านหลัง */
+.sweet-slider::-webkit-slider-runnable-track {
+  height: 10px;
+  border-radius: 10px;
+}
+
+/* ปุ่มวงกลม */
+.sweet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #946645;
+  cursor: pointer;
+  margin-top: -6px;
+  transition: 0.2s;
+}
+
+.sweet-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 6px rgba(111, 78, 55, 0.15);
+}
+
+/* Firefox */
+.sweet-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #f4a46c;
+  cursor: pointer;
+}
+
+.sweet-slider:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px     rgba(108, 79, 58, 0.101);
+}
+
+.sweet-slider:focus {
+  outline: none !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 0 4px rgba(111, 78, 55, 0.15) !important;
+}
+/* กล่องแต่ละหมวดตัวเลือก */
+.option-group {
+  background: #fffaf3;
+  padding: 15px;
+  border-radius: 14px;
+  margin-top: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+.option-group h3 {
+  margin-bottom: 8px;
+  color: #6f4e37;
+}
+
+/* select ให้ดูโมเดิร์น */
+.option-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #d8c3b5;
+  background: #fff;
+  font-size: 15px;
+}
+
+/* grid ปุ่มท็อปปิ้ง */
+.topping-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ปุ่มท็อปปิ้ง */
+.topping-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #c8a98d;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.topping-btn:hover {
+  background: #f3e5d8;
+}
+
+.topping-btn.active {
+  background: #6f4e37;
+  color: white;
+  border-color: #6f4e37;
+}
+
+
+
+
+
+
+
+/* กลุ่มตัวเลือกสไตล์ญี่ปุ่น */
+.option-group.jp {
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.option-group.jp h3 {
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+/* grid การ์ด */
+.jp-topping-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* การ์ดแต่ละท็อปปิ้ง */
+.jp-topping-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.jp-topping-card:hover {
+  border-color: #bbb;
+  background: #f5f5f5;
+}
+
+/* ตอนถูกเลือก */
+.jp-topping-card.active {
+  background: #2fcb08;
+  color: white;
+  border-color: #14c700;
+}
+
+.jp-name {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.jp-price {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+
+
+
+
+.soft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.soft-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.soft-card .emoji {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.soft-card small {
+  opacity: 0.6;
+}
+
+.soft-card.active {
+  background: #6f4e37;
+  color: white;
+  border-color: #6f4e37;
+}

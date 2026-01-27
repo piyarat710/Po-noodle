@@ -50,36 +50,56 @@ export default function TeaDetail() {
         style={{ width: "100%", borderRadius: "10px" }}
       />
 
-      <h3 style={{ marginTop: "20px" }}>ระดับความหวาน: {sweetness}%</h3>
+        <div style={{
+          marginTop: "20px",
+          padding: "15px",
+          background: "#fff8f2",
+          borderRadius: "12px",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.05)"
+        }}>
+          <h3 style={{ marginBottom: "10px" }}>
+            ระดับความหวาน: <span style={{ color: "#6f4e37" }}>{sweetness}%</span>
+          </h3>
 
-      <input
-        type="range"
-        min="0"
-        max="125"
-        step="25"
-        value={sweetness}
-        onChange={e => setSweetness(e.target.value)}
-        style={{ width: "100%" }}
-      />
-      <p>{sweetness}%</p>
-
-            {/* ท็อปปิ้ง */}
-      <h3>ท็อปปิ้ง</h3>
-      {["ไข่มุก", "วิป"].map(t => (
-        <label key={t} style={{ display: "block" }}>
           <input
-            type="checkbox"
-            checked={toppings.includes(t)}
-            onChange={() => toggle(t)}
+          type="range"
+          min="0"
+          max="125"
+          step="25"
+          value={sweetness}
+          onChange={e => setSweetness(Number(e.target.value))}
+          className="sweet-slider"
           />
-          {" "}
-          {t} (+{t === "ไข่มุก" ? 5 : 10})
-        </label>
-      ))}
 
-      <h2 style={{ marginTop: "20px" }}>
-        ราคา {totalPrice} บาท
-      </h2>
+  <div style={{ marginTop: "8px", fontSize: "14px", color: "#6f4e37" }}>
+    {sweetness === 0 && "ไม่หวาน 🚫"}
+    {sweetness === 25 && "หวานน้อย 🙂"}
+    {sweetness === 50 && "หวานปกติ 😋"}
+    {sweetness === 75 && "หวานมาก 🤤"}  
+    {sweetness === 100 && "หวานสุด 🍬"}
+    {sweetness === 125 && "หวานทะลุโลก 🧁"}
+  </div>
+</div>
+
+<div className="option-group cafe-soft">
+  <h3>ท็อปปิ้ง</h3>
+  <div className="soft-grid">
+    {["ไข่มุก", "วิป"].map(t => (
+      <div
+        key={t}
+        className={`soft-card ${toppings.includes(t) ? "active" : ""}`}
+        onClick={() => toggle(t)}
+      >
+        <div className="emoji">{t === "ไข่มุก" ? "🧋" : "🍦"}</div>
+        <div>{t}</div>
+        <small>+{t === "ไข่มุก" ? 5 : 10} บาท</small>
+      </div>
+    ))}
+  </div>
+</div>
+
+<div className="price-box">รวม {totalPrice} บาท</div>
+
 
       <button
         onClick={add}
@@ -97,11 +117,11 @@ export default function TeaDetail() {
         เพิ่มลงตะกร้า
       </button>
       <Link to="/cart">
-      <button style={{ width: "100%", marginTop: "10px" }}>
+      <button style={{ width: "100%", marginTop: "10px", background: "#49be84ff" }}>
         ไปที่ตะกร้า  </button></Link>
 
       <Link to="/tea">
-        <button style={{ width: "100%", marginTop: "10px" }}>
+        <button style={{ width: "100%", marginTop: "10px", background: "#999" }}>
           กลับไปหน้าเครื่องดื่ม </button></Link>
     </div>
   );

@@ -32,7 +32,9 @@ export default function Menu() {
                 border: "1px solid #ddd",
                 borderRadius: "10px",
                 padding: "10px",
-                cursor: "pointer"
+                cursor: "pointer",
+                background: "#c2fb94"   // ✅ ใส่ตรงการ์ด
+
               }}
             >
               <img

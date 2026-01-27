@@ -21,7 +21,7 @@ export default function Cart() {
   }
 
   return (
-    <div style={{ padding: "20px", maxWidth: "700px", margin: "0 auto" }}>
+    <div className="cart-box" style={{ padding: "20px", maxWidth: "700px", margin: "0 auto" }}>
       <h1>ตะกร้าสินค้าของคุณ</h1>
 
       {cart.map((item, index) => (
@@ -106,7 +106,7 @@ export default function Cart() {
 
       {currentOrder && (
         <Link to="/checkout">
-          <button style={{ width: "100%", marginTop: 10 }}>
+          <button style={{ width: "100%", marginTop: 10, background: "#6ad13a", }}>
             ไปชำระเงิน
           </button>
         </Link>

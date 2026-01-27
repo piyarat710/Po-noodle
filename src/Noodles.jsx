@@ -22,7 +22,9 @@ export default function Noodles() {
             <div style={{
               border: "1px solid #ccc",
               borderRadius: "12px",
-              padding: "10px"
+              padding: "10px",
+              background: "#ffffff",   // ✅ ใส่ตรงการ์ด
+              transition: "0.2s"
             }}>
               <img
                 src={item.image}
@@ -51,6 +53,7 @@ export default function Noodles() {
         to="/menu"
         title="⬅ กลับไปหน้าเมนู"
         subtitle="เลือกหมวดอาหารอื่น"
+        bgColor="#ffffff"
       />
     </div>
   );

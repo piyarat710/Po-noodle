@@ -26,7 +26,7 @@ export default function Tea() {
                 border: "1px solid #ccc",
                 borderRadius: "12px",
                 padding: "10px",
-                background: "white"
+                background: "#94fbc2"
               }}
             >
               <div

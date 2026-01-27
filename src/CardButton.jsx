@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function CardButton({ to, title, subtitle }) {
+export default function CardButton({ to, title, subtitle, bgColor }) {
   return (
     <Link
       to={to}
@@ -20,7 +20,8 @@ export default function CardButton({ to, title, subtitle }) {
           cursor: "pointer",
           maxWidth: "300px",
           margin: "0 auto",
-          transition: "0.2s"
+          transition: "0.2s",
+          background: bgColor || "white"
         }}
         onMouseEnter={e => {
           e.currentTarget.style.transform = "scale(1.03)";
