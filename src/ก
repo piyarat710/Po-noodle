@@ -18,14 +18,8 @@ export default function Stats() {
     return () => clearInterval(interval);
   }, []);
 
-  const now = new Date();
-const thisMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
-
-// กรองเฉพาะออเดอร์เดือนนี้
-const monthlyHistory = history.filter(order => order.month === thisMonth);
-
   // ===== ยอดขายรวม =====
-  const totalSales = monthlyHistory.reduce(
+  const totalSales = history.reduce(
     (sum, order) =>
       sum +
       order.items.reduce((s, item) => s + item.price, 0),
@@ -35,7 +29,7 @@ const monthlyHistory = history.filter(order => order.month === thisMonth);
   // ===== เมนูขายดี =====
   const menuCount = {};
 
-  monthlyHistory.forEach(order => {
+  history.forEach(order => {
     order.items.forEach(item => {
       menuCount[item.name] =
         (menuCount[item.name] || 0) + 1;
@@ -45,10 +39,15 @@ const monthlyHistory = history.filter(order => order.month === thisMonth);
   const sortedMenus = Object.entries(menuCount)
     .sort((a, b) => b[1] - a[1]);
 
-      const allItems = monthlyHistory.flatMap(order => order.items);
-      
-const drinks = allItems.filter(item => item.type === "tea");
-const noodles = allItems.filter(item => item.type === "noodle");
+      const allItems = history.flatMap(order => order.items);
+
+      const drinks = allItems.filter(item =>
+      item.name.includes("ชา")
+      );
+
+      const noodles = allItems.filter(item =>
+      !item.name.includes("ชา")
+      );
 
       const noodleTotal = noodles.reduce(
       (s, i) => s + i.price,
@@ -100,7 +99,7 @@ const noodles = allItems.filter(item => item.type === "noodle");
       <div style={{ marginTop: 30 }}>
         <h2>🍜 เมนูขายดีของก๋วยเตี๋ยว</h2>
 
-        {sortedNoodleMenus.length === 0 ? (
+        {sortedMenus.length === 0 ? (
           <p>ยังไม่มีข้อมูล</p>
         ) : (
           <ol>

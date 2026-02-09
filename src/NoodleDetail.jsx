@@ -39,6 +39,7 @@ export default function NoodleDetail() {
     setError("");
 
     addToCart({
+      type: "noodle",
       name: noodle.name,
       size,
       spicy,

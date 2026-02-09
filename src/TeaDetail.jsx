@@ -117,7 +117,7 @@ export default function TeaDetail() {
         เพิ่มลงตะกร้า
       </button>
       <Link to="/cart">
-      <button style={{ width: "100%", marginTop: "10px", background: "#ddd" }}>
+      <button style={{ width: "100%", marginTop: "10px", background: "#49be84ff" }}>
         ไปที่ตะกร้า  </button></Link>
 
       <Link to="/tea">

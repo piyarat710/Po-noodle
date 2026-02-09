@@ -33,7 +33,7 @@ export default function Menu() {
                 borderRadius: "10px",
                 padding: "10px",
                 cursor: "pointer",
-                background: "#c2fb94"   // ✅ ใส่ตรงการ์ด
+                background: "#eddfdf"   // ✅ ใส่ตรงการ์ด
 
               }}
             >

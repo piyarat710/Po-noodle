@@ -23,7 +23,7 @@ export default function Noodles() {
               border: "1px solid #ccc",
               borderRadius: "12px",
               padding: "10px",
-              background: "#ffffff",   // ✅ ใส่ตรงการ์ด
+              background: "#eddfdf",   // ✅ ใส่ตรงการ์ด
               transition: "0.2s"
             }}>
               <img

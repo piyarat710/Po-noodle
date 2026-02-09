@@ -30,12 +30,15 @@ export function CartProvider({ children }) {
     if (cart.length === 0) return;
 
     const table = localStorage.getItem("tableNumber");
-
+    const now = new Date();
+    const monthKey = `${now.getFullYear()}-${now.getMonth() + 1}`;
+    
     const newOrder = {
       id: Date.now(),
       table,
       items: cart,
-      time: Date.now()
+      time: Date.now(),
+      month: monthKey
     };
 
     // 🔴 สำหรับหน้า Kitchen (ลบได้)
