@@ -17,6 +17,13 @@ export function CartProvider({ children }) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+        useEffect(() => {
+        const savedOrder = JSON.parse(localStorage.getItem("currentOrder"));
+        if (savedOrder) {
+          setCurrentOrder(savedOrder);
+        }
+      }, []);
+
   const addToCart = (item) =>
     setCart(prev => [...prev, item]);
 
@@ -59,39 +66,44 @@ export function CartProvider({ children }) {
     );
 
     setCurrentOrder(newOrder);
+    localStorage.setItem("currentOrder", JSON.stringify(newOrder));
     setCart([]);
   };
 
-                                                    const payOrder = () => {
-                                                    if (!currentOrder) return;
 
-                                                    const orders =
-                                                      JSON.parse(localStorage.getItem("orders")) || [];
+                                                             const payOrder = () => {
+                                                              if (!currentOrder) return;
 
-                                                    const history =
-                                                      JSON.parse(localStorage.getItem("orderHistory")) || [];
+                                                              const orders =
+                                                                JSON.parse(localStorage.getItem("orders")) || [];
 
-                                                    const updatedOrders = orders.map(o =>
-                                                      o.id === currentOrder.id
-                                                        ? { ...o, status: "waiting_verify" }
-                                                        : o
-                                                    );
+                                                              const history =
+                                                                JSON.parse(localStorage.getItem("orderHistory")) || [];
 
-                                                    const updatedHistory = history.map(o =>
-                                                      o.id === currentOrder.id
-                                                        ? { ...o, status: "waiting_verify" }
-                                                        : o
-                                                    );
+                                                              const updatedOrders = orders.map(o =>
+                                                                o.id === currentOrder.id
+                                                                  ? { ...o, status: "waiting_verify" }
+                                                                  : o
+                                                              );
 
-                                                    localStorage.setItem("orders", JSON.stringify(updatedOrders));
-                                                    localStorage.setItem("orderHistory", JSON.stringify(updatedHistory));
+                                                              const updatedHistory = history.map(o =>
+                                                                o.id === currentOrder.id
+                                                                  ? { ...o, status: "waiting_verify" }
+                                                                  : o
+                                                              );
 
-                                                    setCurrentOrder(null);
+                                                              localStorage.setItem("orders", JSON.stringify(updatedOrders));
+                                                              localStorage.setItem("orderHistory", JSON.stringify(updatedHistory));
 
-                                                    alert("แจ้งร้านแล้ว รอร้านตรวจสอบการชำระเงิน");
+                                                              // 🔥 ค่อยลบตอนท้าย
+                                                              localStorage.removeItem("currentOrder");
 
-                                                    window.location.href = "/menu";
-                                                  };
+                                                              setCurrentOrder(null);
+
+                                                              alert("แจ้งร้านแล้ว รอร้านตรวจสอบการชำระเงิน");
+
+                                                              window.location.href = "/menu";
+                                                            };
 
 
   const clearCurrentOrder = () =>
