@@ -25,7 +25,7 @@ export default function Checkout() {
 
       <h2>รวม {total} บาท</h2>
 
-      <img src={qrUrl} style={{ width: 250 }} />
+      <img src="/bankqr.jpeg" style={{ width: 250 }} />
 
       <button onClick={payOrder}>
         ฉันโอนเงินแล้ว
