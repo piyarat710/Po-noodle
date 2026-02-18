@@ -12,7 +12,7 @@ export default function Checkout() {
     0
   );
 
-  const qrUrl = `https://promptpay.io/0812345678/${total}`;
+  const qrUrl = `https://promptpay.io/0961408341/${total}`;
 
   return (
     <div style={{ padding: 20, textAlign: "center" }}>
