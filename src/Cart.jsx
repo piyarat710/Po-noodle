@@ -112,7 +112,7 @@ export default function Cart() {
         </Link>
       )}
 
-      <Link to="/noodles">
+      <Link to="/menu">
         <button style={{ width: "100%", marginTop: 10 }}>
           กลับไปเลือกเมนู
         </button>

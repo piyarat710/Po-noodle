@@ -57,7 +57,7 @@ export default function Menu() {
           fontSize: "16px",
           cursor: "pointer"
   }}>
-    ดูตะกร้า
+   🧺 ดูตะกร้า
   </button>
 </Link>
         <CardButton

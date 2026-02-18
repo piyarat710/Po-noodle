@@ -28,7 +28,7 @@ export default function Checkout() {
       <img src={qrUrl} style={{ width: 250 }} />
 
       <button onClick={payOrder}>
-        ยืนยันว่าชำระเงินแล้ว
+        ฉันโอนเงินแล้ว
       </button>
     </div>
   );

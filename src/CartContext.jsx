@@ -38,6 +38,7 @@ export function CartProvider({ children }) {
       table,
       items: cart,
       time: Date.now(),
+      status: "pending",
       month: monthKey
     };
 
@@ -61,6 +62,38 @@ export function CartProvider({ children }) {
     setCart([]);
   };
 
+                                                    const payOrder = () => {
+                                                    if (!currentOrder) return;
+
+                                                    const orders =
+                                                      JSON.parse(localStorage.getItem("orders")) || [];
+
+                                                    const history =
+                                                      JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+                                                    const updatedOrders = orders.map(o =>
+                                                      o.id === currentOrder.id
+                                                        ? { ...o, status: "waiting_verify" }
+                                                        : o
+                                                    );
+
+                                                    const updatedHistory = history.map(o =>
+                                                      o.id === currentOrder.id
+                                                        ? { ...o, status: "waiting_verify" }
+                                                        : o
+                                                    );
+
+                                                    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+                                                    localStorage.setItem("orderHistory", JSON.stringify(updatedHistory));
+
+                                                    setCurrentOrder(null);
+
+                                                    alert("แจ้งร้านแล้ว รอร้านตรวจสอบการชำระเงิน");
+
+                                                    window.location.href = "/menu";
+                                                  };
+
+
   const clearCurrentOrder = () =>
     setCurrentOrder(null);
 
@@ -73,7 +106,8 @@ export function CartProvider({ children }) {
         removeFromCart,
         submitOrder,
         clearCart,
-        clearCurrentOrder
+        clearCurrentOrder,
+        payOrder
       }}
     >
       {children}

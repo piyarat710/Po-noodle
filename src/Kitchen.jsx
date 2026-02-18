@@ -45,29 +45,23 @@ export default function Kitchen() {
 
 
   const doneOrder = (id) => {
-  const finishedOrder = orders.find(o => o.id === id);
-  if (!finishedOrder) return;
-
-  // 🔹 ดึงประวัติเดิม
-  const history =
-    JSON.parse(localStorage.getItem("orderHistory")) || [];
-
-  // 🔹 เก็บข้อมูลให้ครบ (โต๊ะ + เวลา)
-  const orderWithTime = {
-    ...finishedOrder,
-    table: finishedOrder.table,
-    time: finishedOrder.time,
-    finishedAt: Date.now()
-  };
-
-  history.push(orderWithTime);
-  localStorage.setItem("orderHistory", JSON.stringify(history));
-
-  // 🔹 ลบออกจาก orders (ครัว)
   const updatedOrders = orders.filter(o => o.id !== id);
   setOrders(updatedOrders);
   localStorage.setItem("orders", JSON.stringify(updatedOrders));
 };
+   
+    const confirmPaid = (id) => {
+      const orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+      const updated = orders.map(o =>
+        o.id === id ? { ...o, status: "paid" } : o
+      );
+
+      localStorage.setItem("orders", JSON.stringify(updated));
+      setOrders(updated);
+    };
+
 
   return (
     <div
@@ -89,8 +83,8 @@ export default function Kitchen() {
         }}
       >
         <h2>📅 ยอดขายวันนี้</h2>
-        <p>💰 {todayTotal.toLocaleString()} บาท</p>
-        <p>🧾 {todayOrders.length} ออเดอร์</p>
+        <p> {todayTotal.toLocaleString()} บาท</p>
+        <p> {todayOrders.length} ออเดอร์</p>
       </div>
 
       <button
@@ -125,7 +119,10 @@ export default function Kitchen() {
           ยังไม่มีออเดอร์
         </h2>
       ) : (
-        orders.map(order => (
+
+        orders
+        
+        .map(order => (
           <div
             key={order.id}
             style={{
@@ -136,12 +133,30 @@ export default function Kitchen() {
               fontSize: "18px"
             }}
           >
+
+
             {/*  โต๊ะเวลา  */}
-            <h2>🪑 โต๊ะ {order.table}</h2>
-            <p>เวลา: {new Date(order.time).toLocaleTimeString()}</p>
+                    <h2>🪑 โต๊ะ {order.table}</h2>
+                    <div
+                      style={{
+                        marginBottom: 10,
+                        fontWeight: "bold",
+                        color: order.status === "pending" ? "#ff9800" : "#4caf50"
+                      }}
+                    >
+                      {order.status === "pending"
+                        ? "🟠 รอชำระเงิน"
+                        : "🟢 ชำระแล้ว"}
+                    </div>
+                  <p>
+                    เวลา:{" "}
+                    {order.time
+                      ? new Date(order.time).toLocaleTimeString()
+                      : "-"}
+                  </p>
 
                         {/*  เมนู */}
-                    {order.items.map((item, i) => {
+                    {order.items?.map((item, i) => {
                     const details = [
                     item.size && `ขนาด: ${item.size}`,
                     item.spicy && `เผ็ด: ${item.spicy}`,
@@ -194,22 +209,63 @@ export default function Kitchen() {
                     })}
 
 
-                    {/*  ทำเสร็จแล้ว */}
-            <button
-              onClick={() => doneOrder(order.id)}
-              style={{
-                marginTop: "15px",
-                padding: "15px",
-                width: "100%",
-                background: "#4caf50",
-                color: "white",
-                border: "none",
-                borderRadius: "10px",
-                fontSize: "20px"
-              }}
-            >
-              ✅ ทำเสร็จแล้ว
-            </button>
+                    {/* รอชำระเงิน */}
+{order.status === "pending" && (
+  <button
+    onClick={() => confirmPaid(order.id)}
+    style={{
+      marginTop: 10,
+      padding: 15,
+      width: "100%",
+      background: "#ff9800",
+      color: "white",
+      border: "none",
+      borderRadius: 10,
+      fontSize: 18
+    }}
+  >
+    ⏳ รอลูกค้าจ่ายเงิน
+  </button>
+)}
+
+{/* ลูกค้าแจ้งโอนแล้ว */}
+{order.status === "waiting_verify" && (
+  <button
+    onClick={() => confirmPaid(order.id)}
+    style={{
+      marginTop: 10,
+      padding: 15,
+      width: "100%",
+      background: "#ffc107",
+      color: "black",
+      border: "none",
+      borderRadius: 10,
+      fontSize: 18
+    }}
+  >
+    ✅ ยืนยันรับเงินแล้ว
+  </button>
+)}
+
+{/* จ่ายเงินเรียบร้อย */}
+{order.status === "paid" && (
+  <button
+    onClick={() => doneOrder(order.id)}
+    style={{
+      marginTop: 15,
+      padding: 15,
+      width: "100%",
+      background: "#4caf50",
+      color: "white",
+      border: "none",
+      borderRadius: 10,
+      fontSize: 20
+    }}
+  >
+    ✅ เสร็จแล้ว
+  </button>
+)}
+
           </div>
         ))
       )}

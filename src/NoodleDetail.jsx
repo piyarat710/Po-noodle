@@ -164,7 +164,7 @@ export default function NoodleDetail() {
       borderRadius: "8px"
     }}
   >
-    ไปที่ตะกร้า
+   🧺 ไปที่ตะกร้า
   </button>
 </Link>
 

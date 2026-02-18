@@ -8,7 +8,7 @@ export default function TeaDetail() {
   const { addToCart } = useCart();
 
   const tea = TeaMenu.find(t => t.id === id);
-  const [sweetness, setSweetness] = useState(100);
+  const [sweetness, setSweetness] = useState(50);
 
   if (!tea) return <h2>ไม่พบเมนูชานี้</h2>;
 
@@ -76,8 +76,8 @@ export default function TeaDetail() {
     {sweetness === 25 && "หวานน้อย 🙂"}
     {sweetness === 50 && "หวานปกติ 😋"}
     {sweetness === 75 && "หวานมาก 🤤"}  
-    {sweetness === 100 && "หวานสุด 🍬"}
-    {sweetness === 125 && "หวานทะลุโลก 🧁"}
+    {sweetness === 100 && "หวานสุดๆ 🧁"}
+    {sweetness === 125 && "หวานตัดขา 🌋"}
   </div>
 </div>
 
@@ -118,7 +118,7 @@ export default function TeaDetail() {
       </button>
       <Link to="/cart">
       <button style={{ width: "100%", marginTop: "10px", background: "#49be84ff" }}>
-        ไปที่ตะกร้า  </button></Link>
+       🧺 ไปที่ตะกร้า  </button></Link>
 
       <Link to="/tea">
         <button style={{ width: "100%", marginTop: "10px", background: "#999" }}>
