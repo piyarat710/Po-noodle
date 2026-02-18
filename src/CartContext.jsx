@@ -4,7 +4,10 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [currentOrder, setCurrentOrder] = useState(null);
+  const [currentOrder, setCurrentOrder] = useState(() => {
+  const saved = localStorage.getItem("currentOrder");
+  return saved ? JSON.parse(saved) : null;
+  });
 
   // โหลด cart
   useEffect(() => {
@@ -17,12 +20,7 @@ export function CartProvider({ children }) {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-        useEffect(() => {
-        const savedOrder = JSON.parse(localStorage.getItem("currentOrder"));
-        if (savedOrder) {
-          setCurrentOrder(savedOrder);
-        }
-      }, []);
+
 
   const addToCart = (item) =>
     setCart(prev => [...prev, item]);
