@@ -68,9 +68,11 @@ setMyEmail(data.email ?? "");
 
 // ================= orders
 
-const fetchOrders = async () => {
+const fetchOrders=async()=>{
 
-const { data , error } = await supabase
+const {data}
+
+= await supabase
 
 .from("orders")
 
@@ -78,57 +80,31 @@ const { data , error } = await supabase
 
 .order("created_at",{ascending:false});
 
-if(error){
-
-console.log(error);
-
-return;
-
-}
-
-if(!data){
-
-setOrders([]);
-
-setTodayOrders([]);
-
-return;
-
-}
-
-
-// ⭐ เอาไว้โชว์ kitchen (ยังไม่เสร็จ)
-
-setOrders(
-
-data.filter(o =>
-
-o.status !== "done" &&
-
-o.status !== "completed"
-
-)
-
-);
-
-
-// ⭐ เอาไว้นับยอดขายวันนี้
-
-const today = new Date().toDateString();
-
-setTodayOrders(
-
-data.filter(o=>
-
-new Date(o.created_at).toDateString() === today
-
-)
-
-);
+setOrders(data ?? []);
 
 setLoading(false);
 
 };
+
+
+// ================= staffs
+
+const fetchStaffs=async()=>{
+
+const {data}
+
+= await supabase
+
+.from("profiles")
+
+.select("*")
+
+.neq("role","disabled");
+
+setStaffs(data ?? []);
+
+};
+
 
 // ================= delete staff
 
