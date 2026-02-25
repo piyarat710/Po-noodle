@@ -1,139 +1,246 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { supabase } from "./supabase";
 
 export default function Stats() {
-  const [history, setHistory] = useState([]);
 
-  // 🔄 โหลดข้อมูลแบบ real-time (ทุก 3 วิ)
-  useEffect(() => {
-    const loadHistory = () => {
-      const data =
-        JSON.parse(localStorage.getItem("orderHistory")) || [];
-      setHistory(data);
-    };
+const [history,setHistory]=useState([]);
 
-    loadHistory(); // โหลดทันที
-    const interval = setInterval(loadHistory, 3000);
+useEffect(()=>{
 
-    return () => clearInterval(interval);
-  }, []);
+const loadHistory=async()=>{
 
-  const now = new Date();
-const thisMonth = `${now.getFullYear()}-${now.getMonth() + 1}`;
+const {data,error}=await supabase
+.from("orders")
+.select("*")
+.eq("status","completed")
+.order("created_at",{ascending:false});
 
-// กรองเฉพาะออเดอร์เดือนนี้
-const monthlyHistory = history.filter(order => order.month === thisMonth);
+if(!error){
 
-  // ===== ยอดขายรวม =====
-  const totalSales = monthlyHistory.reduce(
-    (sum, order) =>
-      sum +
-      order.items.reduce((s, item) => s + item.price, 0),
-    0
-  );
+setHistory(data||[]);
 
-  // ===== เมนูขายดี =====
-  const menuCount = {};
+}
 
-  monthlyHistory.forEach(order => {
-    order.items.forEach(item => {
-      menuCount[item.name] =
-        (menuCount[item.name] || 0) + 1;
-    });
-  });
+};
 
-  const sortedMenus = Object.entries(menuCount)
-    .sort((a, b) => b[1] - a[1]);
+loadHistory();
 
-      const allItems = monthlyHistory.flatMap(order => order.items);
-      
-const drinks = allItems.filter(item => item.type === "tea");
-const noodles = allItems.filter(item => item.type === "noodle");
+const interval=setInterval(loadHistory,3000);
 
-      const noodleTotal = noodles.reduce(
-      (s, i) => s + i.price,
-      0
-      );
+return()=>clearInterval(interval);
 
-      const drinkTotal = drinks.reduce(
-      (s, i) => s + i.price,
-      0
-      );
+},[]);
 
-        const noodleMenuCount = {};
-  noodles.forEach(item => {
-    noodleMenuCount[item.name] =
-      (noodleMenuCount[item.name] || 0) + 1;
-  });
 
-  const sortedNoodleMenus = Object.entries(noodleMenuCount)
-    .sort((a, b) => b[1] - a[1]);
 
-  // ===== เมนูขายดีของชา =====
-  const drinkMenuCount = {};
-  drinks.forEach(item => {
-    drinkMenuCount[item.name] =
-      (drinkMenuCount[item.name] || 0) + 1;
-  });
+const now=new Date();
 
-  const sortedDrinkMenus = Object.entries(drinkMenuCount)
-    .sort((a, b) => b[1] - a[1]); 
-      
-  return (
-    <div style={{ padding: 20, maxWidth: 600, margin: "0 auto" }}>
-      <h1>📊 สถิติร้าน</h1>
+const thisMonth=
+`${now.getFullYear()}-${now.getMonth()+1}`;
 
-            {/* แยกตามประเภท */}
-      <div style={{ marginTop: 30 }}>
-        <h2></h2>
 
-        <p>🍜 ก๋วยเตี๋ยว: {noodles.length} ชาม</p>
-        
+// เดือนนี้
+const monthlyHistory=history.filter(order=>{
 
-        <hr />
+const d=new Date(order.created_at);
 
-        <p>🧋 ชา / เครื่องดื่ม: {drinks.length} แก้ว</p>
-        
-      </div>
+return(
 
-      {/* เมนูขายดี */}
-      <div style={{ marginTop: 30 }}>
-        <h2>🍜 เมนูขายดีของก๋วยเตี๋ยว</h2>
+d.getFullYear()===now.getFullYear()
 
-        {sortedNoodleMenus.length === 0 ? (
-          <p>ยังไม่มีข้อมูล</p>
-        ) : (
-          <ol>
-            {sortedNoodleMenus.map(([name, count]) => (
-              <li key={name}>
-                {name} x{count}
-              </li>
-            ))}
-          </ol>
-        )}
-      </div>
-        
-            <div style={{ marginTop: 30 }}>
-            <h2>🧋 เมนูขายดีของชา</h2>
+&&
 
-            {sortedDrinkMenus.length === 0 ? (
-            <p>ยังไม่มีข้อมูล</p>
-            ) : (
-            <ol>
-            {sortedDrinkMenus.map(([name, count]) => (
-            <li key={name}>
-            {name} x{count}
-            </li>
-            ))}
-            </ol>
-            )}
-            </div>
+d.getMonth()===now.getMonth()
 
-      <Link to="/">
-        <button style={{ marginTop: 30 }}>
-          ⬅ กลับหน้าแรก
-        </button>
-      </Link>
-    </div>
-  );
+);
+
+});
+
+
+
+// ===== ยอดขายรวม =====
+
+const totalSales=monthlyHistory.reduce(
+
+(sum,order)=>sum+(order.total_price||0),
+
+0
+
+);
+
+
+// ===== รวม items =====
+
+const allItems=monthlyHistory.flatMap(
+
+order=>order.items||[]
+
+);
+
+
+// แยกประเภท
+
+const drinks=allItems.filter(
+
+item=>item.type==="tea"
+
+);
+
+const noodles=allItems.filter(
+
+item=>item.type==="noodle"
+
+);
+
+
+// ===== นับเมนู =====
+
+const countMenu=(list)=>{
+
+const obj={};
+
+list.forEach(item=>{
+
+obj[item.name]=(obj[item.name]||0)+1;
+
+});
+
+return Object.entries(obj)
+
+.sort((a,b)=>b[1]-a[1]);
+
+};
+
+
+const sortedNoodleMenus=countMenu(noodles);
+
+const sortedDrinkMenus=countMenu(drinks);
+
+
+
+return(
+
+<div style={{padding:20,maxWidth:600,margin:"0 auto"}}>
+
+<h1>📊 สถิติร้าน</h1>
+
+<div style={{marginTop:30}}>
+
+<h2></h2>
+
+<p>
+
+🍜 ก๋วยเตี๋ยว :
+
+{noodles.length}
+
+ชาม
+
+</p>
+
+<hr/>
+
+<p>
+
+🧋 ชา / เครื่องดื่ม :
+
+{drinks.length}
+
+แก้ว
+
+</p>
+
+</div>
+
+
+<div style={{marginTop:30}}>
+
+<h2>
+
+🍜 เมนูขายดีของก๋วยเตี๋ยว
+
+</h2>
+
+{sortedNoodleMenus.length===0?
+
+<p>ยังไม่มีข้อมูล</p>
+
+:(
+
+<ol>
+
+{sortedNoodleMenus.map(
+
+([name,count])=>(
+
+<li key={name}>
+
+{name} x{count}
+
+</li>
+
+)
+
+)}
+
+</ol>
+
+)}
+
+</div>
+
+
+
+<div style={{marginTop:30}}>
+
+<h2>
+
+🧋 เมนูขายดีของชา
+
+</h2>
+
+{sortedDrinkMenus.length===0?
+
+<p>ยังไม่มีข้อมูล</p>
+
+:(
+
+<ol>
+
+{sortedDrinkMenus.map(
+
+([name,count])=>(
+
+<li key={name}>
+
+{name} x{count}
+
+</li>
+
+)
+
+)}
+
+</ol>
+
+)}
+
+</div>
+
+
+<Link to="/">
+
+<button style={{marginTop:30}}>
+
+⬅ กลับหน้าแรก
+
+</button>
+
+</Link>
+
+</div>
+
+);
+
 }

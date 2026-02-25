@@ -1,61 +1,126 @@
 import { useParams, Link } from "react-router-dom";
-import NoodleMenu from "./data/Noodles";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useCart } from "./CartContext";
+import { supabase } from "./supabase";
 
 export default function NoodleDetail() {
-  const { id } = useParams();
-  const { addToCart } = useCart();
-  const noodle = NoodleMenu.find(n => n.id === id);
 
-  if (!noodle) return <h2>ไม่พบเมนูนี้</h2>;
+const { slug } = useParams();
+const { addToCart } = useCart();
+const [noodle,setNoodle]=useState(null);
+const [size,setSize]=useState("ปกติ");
+const [spicy,setSpicy]=useState("");
+const [soup,setSoup]=useState("");
+const [noodleType,setNoodleType]=useState("");
+const [vegetable,setVegetable]=useState("");
+const [toppings,setToppings]=useState([]);
+const [error,setError]=useState("");
 
-  const [size, setSize] = useState("ปกติ");
-  const [spicy, setSpicy] = useState("");
-  const [soup, setSoup] = useState("");
-  const [noodleType, setNoodleType] = useState("");
-  const [vegetable, setVegetable] = useState("");
-  const [toppings, setToppings] = useState([]);
-  const [error, setError] = useState("");
 
-  const totalPrice =
-    noodle.basePrice +
-    (size === "พิเศษ" ? 10 : 0) +
-    toppings.length * 10;
+// โหลดจาก DB
+useEffect(()=>{
 
-  const toggleTopping = (t) => {
-    setToppings(prev =>
-      prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t]
-    );
-  };
+const load = async()=>{
+const {data,error}=
+await supabase
+.from("menu_items")
+.select("*")
+.eq("category","noodle")
+.eq("active",true)
+.eq("slug",slug)
+.single();
 
-  const add = () => {
+if(error){
 
-    if (!spicy || !soup || !noodleType || !vegetable) {
-    setError("⚠️ กรุณาเลือกข้อมูลให้ครบ");
-    return;
-    }
+console.log(error);
 
-    setError("");
+return;
 
-    addToCart({
-      type: "noodle",
-      name: noodle.name,
-      size,
-      spicy,
-      soup,
-      noodleType,
-      vegetable,
-      toppings,
-      price: totalPrice
-    });
-    alert("เพิ่มลงตะกร้าแล้ว");
-  };
+}
 
-  return (
+setNoodle(data);
+
+};
+
+load();
+
+},[slug]);
+
+
+if(!noodle)
+
+return <h2>ไม่พบเมนูนี้</h2>;
+
+
+// ===== logic เดิมคุณ =====
+
+const totalPrice =
+
+noodle.price +
+
+(size==="พิเศษ"?10:0)+
+
+toppings.length*10;
+
+
+const toggleTopping=(t)=>{
+
+setToppings(prev=>
+
+prev.includes(t)
+
+?prev.filter(x=>x!==t)
+
+:[...prev,t]
+
+);
+
+};
+
+
+const add=()=>{
+
+if(!spicy||!soup||!noodleType||!vegetable){
+
+setError("⚠️ กรุณาเลือกข้อมูลให้ครบ");
+
+return;
+
+}
+
+setError("");
+
+addToCart({
+
+type:"noodle",
+
+name:noodle.name,
+
+size,
+
+spicy,
+
+soup,
+
+noodleType,
+
+vegetable,
+
+toppings,
+
+price:totalPrice
+
+});
+
+alert("เพิ่มลงตะกร้าแล้ว");
+
+};
+
+
+return (
     <div style={{ padding: 20, maxWidth: 600, margin: "0 auto" }}>
       <h1>{noodle.name}</h1>
-      <img src={noodle.image} style={{ width: "100%", borderRadius: 10 }} />
+      <img src={noodle.image_url} style={{ width: "100%", borderRadius: 10 }} />
 
         <div className="option-group">
           <h3>ขนาด</h3>
@@ -187,5 +252,6 @@ export default function NoodleDetail() {
 
     </div>
   );
-}
 
+
+}

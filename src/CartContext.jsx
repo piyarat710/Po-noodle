@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "./supabase";
+
 
 const CartContext = createContext();
 
@@ -30,43 +32,102 @@ export function CartProvider({ children }) {
 
   const clearCart = () => setCart([]);
 
-  // ✅ ส่งออเดอร์ให้ครัว (localStorage)
-  const submitOrder = () => {
-    if (cart.length === 0) return;
+                                    // ✅ ส่งออเดอร์ให้ครัว (localStorage)
+                                                      const submitOrder = async () => {
 
-    const table = localStorage.getItem("tableNumber");
-    const now = new Date();
-    const monthKey = `${now.getFullYear()}-${now.getMonth() + 1}`;
-    
-    const newOrder = {
-      id: Date.now(),
-      table,
-      items: cart,
-      time: Date.now(),
-      status: "pending",
-      month: monthKey
-    };
+                                                      try{
 
-    // 🔴 สำหรับหน้า Kitchen (ลบได้)
-    const orders =
-      JSON.parse(localStorage.getItem("orders")) || [];
-    localStorage.setItem(
-      "orders",
-      JSON.stringify([...orders, newOrder])
-    );
+                                                      if(cart.length===0){
 
-    // ⭐ เพิ่ม: สำหรับหน้า Stats (ห้ามลบ)
-    const history =
-      JSON.parse(localStorage.getItem("orderHistory")) || [];
-    localStorage.setItem(
-      "orderHistory",
-      JSON.stringify([...history, newOrder])
-    );
+                                                      alert("ไม่มีสินค้า");
 
-    setCurrentOrder(newOrder);
-    localStorage.setItem("currentOrder", JSON.stringify(newOrder));
-    setCart([]);
-  };
+                                                      return;
+
+                                                      }
+
+
+                                                      // ⭐ กัน table null
+                                                      let table = localStorage.getItem("tableNumber");
+
+                                                      if(!table){
+
+                                                      table=1; // default
+
+                                                      }
+
+
+                                                      // ⭐ รวมราคา
+                                                      const total = cart.reduce(
+
+                                                      (sum,i)=>sum+i.price,
+
+                                                      0
+
+                                                      );
+
+
+                                                      // ⭐ insert
+                                                      const { data , error }
+
+                                                      = await supabase
+
+                                                      .from("orders")
+
+                                                      .insert({
+
+                                                      table_number:Number(table),
+
+                                                      items:cart,
+
+                                                      total_price:total,
+
+                                                      status:"pending"
+
+                                                      })
+
+                                                      .select()
+
+                                                      .single();
+
+
+                                                      if(error){
+
+                                                      console.error("ORDER ERROR :",error);
+
+                                                      alert(error.message);
+
+                                                      return;
+
+                                                      }
+
+
+                                                      // success
+                                                      setCurrentOrder(data);
+
+                                                      localStorage.setItem(
+
+                                                      "currentOrder",
+
+                                                      JSON.stringify(data)
+
+                                                      );
+
+
+                                                      setCart([]);
+
+                                                      alert("ส่งเข้าครัวแล้ว !");
+
+
+                                                      }catch(err){
+
+                                                      console.error(err);
+
+                                                      alert("ส่งออเดอร์ไม่สำเร็จ");
+
+                                                      }
+
+                                                      };
+
 
 
                                                              const payOrder = () => {
