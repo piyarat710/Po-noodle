@@ -160,7 +160,7 @@ background:"#f2f2f2"
 
 
 {/* ⭐ ADMIN ไม่เห็น logout */}
-{role === "staff" && (
+{role === "kitchen" && (
 
 <button
 onClick={logout}
