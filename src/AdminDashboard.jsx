@@ -78,6 +78,8 @@ const {data}
 
 .select("*")
 
+.not("status","in","(done,completed)")
+
 .order("created_at",{ascending:false});
 
 setOrders(data ?? []);
