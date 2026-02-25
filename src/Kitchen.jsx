@@ -157,24 +157,7 @@ background:"#f2f2f2"
 <h1>หน้าครัว</h1>
 
 
-{/* 📅 ยอดวันนี้ */}
-<div
-style={{
-background:"white",
-padding:20,
-borderRadius:12,
-marginBottom:20,
-fontSize:18
-}}
->
 
-<h2>📅 ยอดขายวันนี้</h2>
-
-<p>{todayTotal.toLocaleString()} บาท</p>
-
-<p>{todayOrders.length} ออเดอร์</p>
-
-</div>
 
 
 
