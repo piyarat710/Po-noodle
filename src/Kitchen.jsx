@@ -24,23 +24,37 @@ window.location.href="/login";
 
 useEffect(()=>{
 
-const loadOrders=async()=>{
+const loadOrders = async () => {
 
-const {data}=await supabase
+const { data } = await supabase
 .from("orders")
 .select("*")
-.neq("status","completed")
 .order("created_at",{ascending:false});
 
-setOrders(data||[]);
+if(!data){
+
+setOrders([]);
+
+return;
+
+}
+
+// ⭐ Kitchen ใช้เฉพาะยังไม่ completed
+setOrders(
+
+data.filter(order =>
+order.status !== "completed"
+)
+
+);
 
 };
 
 loadOrders();
 
 
-// realtime เหมือนเดิมคุณ
-const channel=
+// realtime
+const channel =
 supabase
 .channel("orders")
 
@@ -49,7 +63,6 @@ supabase
 "postgres_changes",
 
 {
-
 event:"*",
 schema:"public",
 table:"orders"
