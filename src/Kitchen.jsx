@@ -166,7 +166,7 @@ fontSize:18
 
 
 {/* ⭐ ADMIN ไม่เห็น logout */}
-{role !== "admin" && (
+{role === "staff" && (
 
 <button
 onClick={logout}
