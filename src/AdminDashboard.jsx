@@ -540,33 +540,7 @@ onClick={()=>deleteStaff(staff)}
 
 {/* logout session */}
 
-{staff.id!==myId &&
 
-!(
-
-myRole==="admin" &&
-
-(staff.role==="admin" ||
-
-staff.role==="superadmin")
-
-)
-
-&&(
-
-<button
-
-style={{marginLeft:"10px"}}
-
-onClick={()=>forceLogout(staff)}
-
->
-
-Logout Session
-
-</button>
-
-)}
 
 
 
