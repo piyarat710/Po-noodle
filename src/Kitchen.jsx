@@ -7,11 +7,13 @@ export default function Kitchen() {
 
 const [orders,setOrders]=useState([]);
 
-const role = localStorage.getItem("role"); // ⭐ เพิ่มแค่นี้
+const role = localStorage.getItem("role");
 
+console.log("ROLE =", role);
 
-// logout
-const logout=()=>{
+const logout = async () => {
+
+await supabase.auth.signOut();
 
 localStorage.removeItem("isStaff");
 localStorage.removeItem("role");
@@ -19,8 +21,6 @@ localStorage.removeItem("role");
 window.location.href="/login";
 
 };
-
-
 
 useEffect(()=>{
 
@@ -32,92 +32,61 @@ const { data } = await supabase
 .order("created_at",{ascending:false});
 
 if(!data){
-
 setOrders([]);
-
 return;
-
 }
 
-// ⭐ Kitchen ใช้เฉพาะยังไม่ completed
 setOrders(
-
 data.filter(order =>
 order.status !== "completed"
 )
-
 );
 
 };
 
 loadOrders();
 
-
-// realtime
 const channel =
 supabase
 .channel("orders")
-
 .on(
-
 "postgres_changes",
-
 {
 event:"*",
 schema:"public",
 table:"orders"
-
 },
-
 payload=>{
-
 console.log("Realtime :",payload);
-
 loadOrders();
-
 }
-
 )
-
 .subscribe();
 
 return()=>{
-
 supabase.removeChannel(channel);
-
 };
 
 },[]);
 
-
-
-
-const todayOrders=
-orders.filter(order=>
+const todayOrders =
+orders.filter(order =>
 isToday(order.created_at)
 );
 
-
-
-const todayTotal=
+const todayTotal =
 todayOrders.reduce(
-
 (sum,order)=>
-
 sum+
 (order.items||[])
 .reduce(
+(s,i)=>s+(i.price||0),
+0
+),
+0
+);
 
-(s,i)=>s+(i.price||0)
-
-,0)
-
-,0);
-
-
-
-
-const doneOrder=async(id)=>{
+const doneOrder = async(id)=>{
 
 await supabase
 .from("orders")
@@ -126,23 +95,19 @@ status:"completed",
 paid_at:new Date()
 })
 .eq("id",id);
+
 };
 
-
-const confirmPaid=async(id)=>{
+const confirmPaid = async(id)=>{
 
 await supabase
 .from("orders")
 .update({
-
 status:"paid"
-
 })
 .eq("id",id);
 
 };
-
-
 
 return(
 
@@ -156,11 +121,7 @@ background:"#f2f2f2"
 
 <h1>หน้าครัว</h1>
 
-
-
-
-{/* ⭐ ADMIN ไม่เห็น logout */}
-{role !== "admin" && (
+{role === "kitchen" && (
 
 <button
 onClick={logout}
@@ -173,14 +134,10 @@ border:"none",
 borderRadius:6
 }}
 >
-
 ออกจากระบบ
-
 </button>
 
 )}
-
-
 
 <CardButton
 to="/history"
@@ -188,27 +145,29 @@ title="ประวัติการขาย"
 subtitle="ดูออเดอร์ย้อนหลัง"
 />
 
-
-
 <CardButton
 to="/menu"
 title="ไปหน้าเมนู"
 subtitle="กลับไปดูฝั่งลูกค้า"
 />
 
-
-
-{orders.length===0?
+{orders.length===0 ?
 
 <h2 style={{marginTop:"20px"}}>
-
 ยังไม่มีออเดอร์
-
 </h2>
 
 :
 
-orders.map(order=>(
+orders.map(order=>{
+
+const orderTotal =
+(order.items || []).reduce(
+(sum,item)=>sum+(item.price||0),
+0
+);
+
+return(
 
 <div
 key={order.id}
@@ -245,17 +204,11 @@ order.status==="pending"
 </div>
 
 <p>
-
 เวลา:
-
 {order.created_at
-?new Date(order.created_at)
-.toLocaleTimeString()
+?new Date(order.created_at).toLocaleTimeString()
 :"-"}
-
 </p>
-
-
 
 {order.items?.map((item,i)=>{
 
@@ -266,7 +219,7 @@ item.spicy&&`เผ็ด: ${item.spicy}`,
 item.soup&&`น้ำซุป: ${item.soup}`,
 item.noodleType&&`เส้น: ${item.noodleType}`,
 item.vegetable&&`ผัก: ${item.vegetable}`,
-item.toppings?.length&&
+item.toppings?.length &&
 `ท็อปปิ้ง: ${item.toppings.join(", ")}`,
 item.sweetness&&`หวาน: ${item.sweetness}`
 
@@ -285,17 +238,13 @@ marginBottom:12
 >
 
 <div style={{fontWeight:"bold",fontSize:20}}>
-
 • {item.name}
-
 </div>
 
-{details.length>0&&(
+{details.length>0 && (
 
 <div style={{marginTop:6}}>
-
 {details.map((d,idx)=>(
-
 <span
 key={idx}
 style={{
@@ -307,21 +256,15 @@ background:"#e0f2f1",
 borderRadius:6
 }}
 >
-
 {d}
-
 </span>
-
 ))}
-
 </div>
 
 )}
 
 <div style={{marginTop:18,fontWeight:"bold"}}>
-
 {item.price} บาท
-
 </div>
 
 </div>
@@ -330,9 +273,11 @@ borderRadius:6
 
 })}
 
+<div style={{marginTop:10,fontWeight:"bold"}}>
+รวมทั้งหมด : {orderTotal} บาท
+</div>
 
-
-{order.status==="pending"&&(
+{order.status==="pending" && (
 
 <button
 onClick={()=>confirmPaid(order.id)}
@@ -347,20 +292,16 @@ borderRadius:10,
 fontSize:18
 }}
 >
-
 ⏳ รอลูกค้าจ่ายเงิน
-
 </button>
 
 )}
 
-
-
-{order.status==="waiting_verify"&&(
+{order.status==="waiting_verify" && (
 
 <div>
 
-{order.slip_url&&(
+{order.slip_url && (
 
 <img
 src={order.slip_url}
@@ -389,18 +330,14 @@ borderRadius:10,
 fontSize:18
 }}
 >
-
 ✅ ยืนยันรับเงินแล้ว
-
 </button>
 
 </div>
 
 )}
 
-
-
-{order.status==="paid"&&(
+{order.status==="paid" && (
 
 <button
 onClick={()=>doneOrder(order.id)}
@@ -415,16 +352,16 @@ borderRadius:10,
 fontSize:20
 }}
 >
-
 ✅ เสร็จแล้ว
-
 </button>
 
 )}
 
 </div>
 
-))
+);
+
+})
 
 }
 

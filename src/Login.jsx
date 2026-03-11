@@ -48,8 +48,11 @@ return;
 
 alert("เข้าสู่ระบบสำเร็จ");
 
-// เด้งตาม role
+// ⭐ บันทึก role ไว้ในเครื่อง
+localStorage.setItem("role", profile.role);
+localStorage.setItem("isStaff", "true");
 
+// เด้งตาม role
 if(
 profile.role === "admin" ||
 profile.role === "superadmin"

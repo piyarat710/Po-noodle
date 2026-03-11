@@ -109,17 +109,11 @@ return publicData.publicUrl;
 
 // ⭐ เพิ่ม menu (Realtime + Instant)
 const addMenu=async(e)=>{
-
 e.preventDefault();
-
 let imageUrl=null;
-
 const file=e.target.image.files[0];
-
 if(file){
-
 imageUrl=await uploadImage(file);
-
 }
 
 const autoSlug=makeSlug(name);
@@ -237,7 +231,7 @@ return(
             กลับหน้า ADMIN
             </button>
             
-<h1>ADMIN MENU POS</h1>
+<h1>ADMIN MENU </h1>
 <form onSubmit={addMenu}>
 
 <input
